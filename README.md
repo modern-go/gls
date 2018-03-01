@@ -11,3 +11,35 @@ Thanks https://github.com/huandu/go-tls for original idea
 
 * get current goroutine id
 * goroutine local storage
+
+require go version >= 1.4
+
+# gls.GoID
+
+get the identifier unique for this goroutine
+
+```go
+go func() {
+	gls.GoID()
+}()
+go func() {
+	gls.GoID()
+}()
+```
+
+# gls.Set / gls.Get
+
+goroutine local storage is a `map[interface{}]interface{}` local to current goroutine
+
+It is intended to be used by framworks to simplify context passing.
+
+Use `context.Context` to pass context if possible.
+
+```go
+gls.Set("user_id", "abc")
+doSomeThing()
+
+func doSomeThing() {
+	gls.Get("user_id") // will be "abc"
+}
+```

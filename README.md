@@ -1,5 +1,6 @@
-goroutine local storage
+# goroutine local storage
+
+Thanks https://github.com/huandu/go-tls for original idea
 
 * get current goroutine id
-* get reflect.Type by name
 * goroutine local storage

@@ -22,6 +22,7 @@ func init() {
 	}
 }
 
+// ResetGls reset the goroutine local storage for specified goroutine
 func ResetGls(goid int64, initialValue map[interface{}]interface{}) {
 	shardIndex := goid % shardsCount
 	lock := globalLocks[shardIndex]
@@ -30,6 +31,7 @@ func ResetGls(goid int64, initialValue map[interface{}]interface{}) {
 	lock.Unlock()
 }
 
+// DeleteGls remove goroutine local storage for specified goroutine
 func DeleteGls(goid int64) {
 	shardIndex := goid % shardsCount
 	lock := globalLocks[shardIndex]
@@ -38,6 +40,8 @@ func DeleteGls(goid int64) {
 	lock.Unlock()
 }
 
+// GetGls get goroutine local storage for specified goroutine
+// if the goroutine did not set gls, it will return nil
 func GetGls(goid int64) map[interface{}]interface{} {
 	shardIndex := goid % shardsCount
 	lock := globalLocks[shardIndex]
@@ -51,6 +55,9 @@ func GetGls(goid int64) map[interface{}]interface{} {
 	}
 }
 
+// WithGls setup and teardown the gls in the wrapper.
+// go WithGls(func(){}) will add gls for the new goroutine.
+// The gls will be removed once goroutine exit
 func WithGls(f func()) func() {
 	parentGls := GetGls(GoID())
 	// parentGls can not be used in other goroutine, otherwise not thread safe
@@ -72,6 +79,7 @@ func WithGls(f func()) func() {
 	}
 }
 
+// WithEmptyGls works like WithGls, but do not inherit gls from parent goroutine.
 func WithEmptyGls(f func()) func() {
 	// do not inherit from parent gls
 	return func() {
@@ -82,6 +90,7 @@ func WithEmptyGls(f func()) func() {
 	}
 }
 
+// Get key from goroutine local storage
 func Get(key interface{}) interface{} {
 	glsMap := GetGls(GoID())
 	if glsMap == nil {
@@ -90,6 +99,7 @@ func Get(key interface{}) interface{} {
 	return glsMap[key]
 }
 
+// Set key and element to goroutine local storage
 func Set(key interface{}, value interface{}) {
 	glsMap := GetGls(GoID())
 	if glsMap == nil {
@@ -98,6 +108,7 @@ func Set(key interface{}, value interface{}) {
 	glsMap[key] = value
 }
 
+// IsGlsEnabled test if the gls is available for specified goroutine
 func IsGlsEnabled(goid int64) bool {
 	return GetGls(goid) != nil
 }

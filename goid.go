@@ -1,8 +1,8 @@
 package gls
 
 import (
-	"unsafe"
 	"github.com/modern-go/reflect2"
+	"unsafe"
 )
 
 // offset for go1.4

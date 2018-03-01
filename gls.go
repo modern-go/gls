@@ -112,4 +112,3 @@ func Set(key interface{}, value interface{}) {
 func IsGlsEnabled(goid int64) bool {
 	return GetGls(goid) != nil
 }
-

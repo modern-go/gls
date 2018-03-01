@@ -1,8 +1,8 @@
 package gls
 
 import (
-	"testing"
 	"sync"
+	"testing"
 )
 
 func TestGls(t *testing.T) {

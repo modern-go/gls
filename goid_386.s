@@ -11,3 +11,4 @@ TEXT ·getg(SB), NOSPLIT, $0-4
     MOVL    g(CX), AX
     MOVL    AX, ret+0(FP)
     RET
+

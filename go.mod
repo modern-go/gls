@@ -1,4 +1,4 @@
-module gls
+module github.com/modern-go/gls
 
 go 1.17
 

@@ -1,5 +1,3 @@
-//go:build go1.17
-
 package gls
 
 import (
@@ -21,7 +19,8 @@ func init() {
 
 // GoID returns the goroutine id of current goroutine
 func GoID() int64 {
-	p_goid := (*int64)(unsafe.Add(unsafe.Pointer(getg()), goidOffset))
+	g := getg()
+	p_goid := (*int64)(unsafe.Pointer(g + goidOffset))
 	return *p_goid
 }
 
